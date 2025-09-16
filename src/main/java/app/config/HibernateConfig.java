@@ -1,8 +1,6 @@
 package app.config;
 
-import app.entities.Genre;
-import app.entities.Movie;
-import app.entities.Person;
+import app.entities.*;
 import app.utils.Utils;
 
 import jakarta.persistence.EntityManagerFactory;
@@ -45,6 +43,8 @@ public class HibernateConfig {
         configuration.addAnnotatedClass(Movie.class);// DET ER DENNE
         configuration.addAnnotatedClass(Genre.class);
         configuration.addAnnotatedClass(Person.class);
+        configuration.addAnnotatedClass(MovieGenre.class);
+        configuration.addAnnotatedClass(MoviePerson.class);
     }
 
     private static EntityManagerFactory createEMF(boolean forTest) {
