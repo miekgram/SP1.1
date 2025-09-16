@@ -1,5 +1,5 @@
 package app.dao;
-import app.entities.Point;
+import app.entities.Movie;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
@@ -27,7 +27,7 @@ public class DAO {
             try {
                 tx.begin();
                 for (int i = 0; i < n; i++) {
-                    em.persist(new Point(i, i));
+                    em.persist(new Movie(i, i));
                     // valgfrit batching:
                     if (i % 50 == 0) { em.flush(); em.clear(); }
                 }
@@ -45,7 +45,7 @@ public class DAO {
         public long countPoints() {
             EntityManager em = emf.createEntityManager();
             try {
-                Query q = em.createQuery("SELECT COUNT(p) FROM Point p");
+                Query q = em.createQuery("SELECT COUNT(p) FROM Movie p");
                 return (long) q.getSingleResult();
             } finally {
                 em.close();
@@ -56,7 +56,7 @@ public class DAO {
         public double avgX() {
             EntityManager em = emf.createEntityManager();
             try {
-                Query q = em.createQuery("SELECT AVG(p.x) FROM Point p");
+                Query q = em.createQuery("SELECT AVG(p.x) FROM Movie p");
                 // getSingleResult() returnerer Double for AVG
                 return ((Double) q.getSingleResult());
             } finally {
@@ -65,10 +65,10 @@ public class DAO {
         }
 
         /** Henter alle points */
-        public List<Point> findAll() {
+        public List<Movie> findAll() {
             EntityManager em = emf.createEntityManager();
             try {
-                TypedQuery<Point> q = em.createQuery("SELECT p FROM Point p ORDER BY p.id", Point.class);
+                TypedQuery<Movie> q = em.createQuery("SELECT p FROM Movie p ORDER BY p.id", Movie.class);
                 return q.getResultList();
             } finally {
                 em.close();
