@@ -12,13 +12,13 @@ import java.util.List;
 public class Movie {
 
     @Id
-    int movieId;
-    String title;
-    boolean adult;
+    private int movieId;
+    private String title;
+    private boolean adult;
     @ElementCollection //Gemmer liste af genre for filmen i db
-    List<Integer> genre;
-    String language;
-    String description;
+    private List<Integer> genre;
+    private String language;
+    private String description;
 
 
 }

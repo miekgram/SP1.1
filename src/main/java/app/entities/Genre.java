@@ -8,6 +8,6 @@ import lombok.Data;
 @Entity
 public class Genre {
     @Id
-    int id;
-    String name;
+    private int id;
+    private String name;
 }

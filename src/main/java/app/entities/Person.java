@@ -9,8 +9,8 @@ import lombok.Data;
 @Entity
 public class Person {
     @Id
-    int id;
-    int gender;
-    String name;
-    String job;
+   private int id;
+   private int gender;
+   private String name;
+   private String job;
 }
