@@ -26,6 +26,12 @@
             <version>${jackson.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.18.3</version> <!-- eller samme version som din jackson-core -->
+        </dependency>
+
 
         <!--  DB    -->
         <dependency>

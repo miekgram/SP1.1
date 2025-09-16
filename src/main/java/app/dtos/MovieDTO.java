@@ -15,14 +15,18 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MovieDTO {
+    @JsonProperty("id")
     private int movieId;
     private String title;
     private boolean adult;
-    private List<GenreDTO> genreId;
+    @JsonProperty("genre_ids")
+    private List<Integer> genreId;
+    @JsonProperty("original_language")
     private String language;
     @JsonProperty("overview")
     private String description;
+    @JsonProperty("release_date")
     private LocalDate releaseDate;
-    @JsonProperty("vote_avg")
+    @JsonProperty("vote_average")
     private double avgRating;
 }
