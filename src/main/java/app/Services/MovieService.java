@@ -16,6 +16,8 @@ public class MovieService {
 
     public static String getMovieById(int id) throws IOException, InterruptedException {
 
+
+
         String url = BASE_URL_MOVIE + id + "?api_key=" + API_KEY;
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest

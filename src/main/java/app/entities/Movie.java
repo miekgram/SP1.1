@@ -9,6 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 public class Movie {
 
     @Id
@@ -19,6 +20,7 @@ public class Movie {
     private List<Integer> genre;
     private String language;
     private String description;
+    private double avgRating;
 
 
 }

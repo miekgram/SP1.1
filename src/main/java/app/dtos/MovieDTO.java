@@ -18,7 +18,7 @@ public class MovieDTO {
     private int movieId;
     private String title;
     private boolean adult;
-    private List<GenreDTO> genreId;
+    private List<Integer> genreId;
     private String language;
     @JsonProperty("overview")
     private String description;
