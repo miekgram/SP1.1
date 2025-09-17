@@ -22,6 +22,6 @@ public class Person {
    private String name;
    private String job;
     @Builder.Default
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
    private List<MoviePerson> movies = new ArrayList<>();
 }

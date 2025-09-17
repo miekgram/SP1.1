@@ -1,7 +1,6 @@
 package app.dtos;
 
 
-import app.entities.Person;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,7 @@ public class MovieDTO {
     private String title;
     private boolean adult;
     @JsonProperty("genre_ids")
-    private List<Integer> genreId;
+    private List<Integer> genreIds;
     @JsonProperty("original_language")
     private String language;
     @JsonProperty("overview")

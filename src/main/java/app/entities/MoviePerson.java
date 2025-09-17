@@ -16,16 +16,10 @@ public class MoviePerson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Movie movie;
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     private Person person;
     private String job;
 
-
-    public MoviePerson(Movie movie, Person person, String job) {
-        this.movie = movie;
-        this.person = person;
-        this.job = job;
-    }
 }

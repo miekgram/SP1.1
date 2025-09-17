@@ -1,26 +1,53 @@
 package app.Services;
 
+import app.dao.Dao;
 import app.dtos.GenreDTO;
 import app.dtos.MovieDTO;
 import app.dtos.PersonDTO;
 import app.entities.Genre;
 import app.entities.Movie;
 import app.entities.Person;
+import jakarta.persistence.EntityManagerFactory;
+
+import java.util.List;
+
+
 
 public class Converters {
 
-    public Movie convertMovieDtoToMovie (MovieDTO movieDTO){
+    public Movie convertMovieDtoToMovie (MovieDTO movieDTO, List<PersonDTO> persons, List<GenreDTO> genreDTOS, EntityManagerFactory emf){
+        Dao dao = new Dao(emf);
 
-        return Movie.builder()
+        Movie movie = Movie.builder()
                 .movieId(movieDTO.getMovieId())
                 .title(movieDTO.getTitle())
                 .adult(movieDTO.isAdult())
-                .genre(movieDTO.getGenreId())
+                .genre(movieDTO.getGenreIds())
                 .description(movieDTO.getDescription())
                 .language(movieDTO.getLanguage())
                 .avgRating(movieDTO.getAvgRating())
                 .build();
 
+        for (PersonDTO p : persons) {
+            Person person = convertPersonDtoToPerson(p);
+            person = dao.updatePerson(person);
+            movie.addPerson(person);
+        }
+
+        // Tilføj genres
+        for (Integer genreId : movieDTO.getGenreIds()) {
+            GenreDTO genreDTO = genreDTOS.stream()
+                    .filter(g -> g.getId() == genreId)
+                    .findFirst()
+                    .orElse(null);
+
+            if (genreDTO != null) {
+                Genre genre = convertGenreDtoToGenre(genreDTO);
+                movie.addGenre(genre);
+            }
+        }
+
+        return movie;
     }
 
     public Genre convertGenreDtoToGenre (GenreDTO genreDTO){

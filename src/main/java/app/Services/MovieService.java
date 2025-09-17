@@ -32,7 +32,7 @@ public class MovieService  {
     ;
 
 
-    public static List<MovieDTO> loadAllDanishMovies() throws IOException, InterruptedException{
+    public static List<MovieDTO> loadAllMovies() throws IOException, InterruptedException{
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         int page = 1;
@@ -69,38 +69,6 @@ public class MovieService  {
 
     }
 
-
-    public static String getMovieById(int id) throws IOException, InterruptedException {
-
-
-
-        String url = BASE_URL_MOVIE + id + "?api_key=" + API_KEY;
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest
-                .newBuilder()
-                .uri(URI.create(url))
-                .GET()
-                .build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return response.body();
-    }
-
-    public static String getMoviesByAvgVotingBetween(double min, double max, int page) throws IOException, InterruptedException {
-        String url = String.format("%s?api_key=%s&page=%d&sort_by=popularity.desc&vote_average.gte=%.2f&vote_average.lte=%.2f", BASE_URL_DISCOVER, API_KEY, page, min, max);
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest
-                .newBuilder()
-                .uri(URI.create(url))
-                .GET()
-                .build();
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return response.body();
-
-
-
-    }
     public static List<GenreDTO> getAllGenre()throws IOException, InterruptedException{
         String url = String.format("https://api.themoviedb.org/3/genre/movie/list?language=da&api_key="+API_KEY);
         HttpClient client = HttpClient.newHttpClient();
@@ -152,19 +120,25 @@ public class MovieService  {
     }
 
 
-    public static void loadAllActors(List<MovieDTO> movieDTOS)throws IOException, InterruptedException{
-        List<PersonDTO> personDTO;
+    public static void loadAllActorsAndGenre(List<MovieDTO> movieDTOS)throws IOException, InterruptedException{
+        List<PersonDTO> personDTOS;
         Converters converters = new Converters();
-
+        //For hver film tilføjer vi actors og genre til movie listerne med persons og genres
         for (MovieDTO m : movieDTOS){
             Movie movie = dao.getById(m.getMovieId());
-            personDTO = getAllPersonsByMovieId(m);
-            for (PersonDTO p : personDTO){
+            personDTOS = getAllPersonsByMovieId(m);
+
+            for (Integer genreId : m.getGenreIds()) {
+                Genre genre = dao.getGenreById(genreId);
+                movie.addGenre(genre);
+            }
+
+            for (PersonDTO p : personDTOS){
                Person person = converters.convertPersonDtoToPerson(p);
                dao.updatePerson(person);
                 movie.addPerson(person);
             }
-
+            dao.update(movie);
         }
 
 
@@ -172,16 +146,6 @@ public class MovieService  {
 
     public static void loadAll() throws IOException, InterruptedException {
         Converters converter = new Converters();
-
-        // ----- Movies -----
-        List<MovieDTO> movieDTOS = MovieService.loadAllDanishMovies();
-        List<Movie> movies = movieDTOS.stream()
-                .map(converter::convertMovieDtoToMovie)
-                .toList();
-
-        for(Movie movie : movies){
-            dao.createMovie(movie);
-        }
 
         //----- Genre -----
         List<GenreDTO> genreDTOS = MovieService.getAllGenre();
@@ -193,8 +157,16 @@ public class MovieService  {
             dao.createGenre(g);
         }
 
-        //----- Actors -----
-        loadAllActors(movieDTOS);
+        // ----- Movies -----
+        List<MovieDTO> movieDTOS = MovieService.loadAllMovies();
+
+        for(MovieDTO movieDTO : movieDTOS){
+            List<PersonDTO> personDTOS = getAllPersonsByMovieId(movieDTO);
+            Movie movie = converter.convertMovieDtoToMovie(movieDTO,personDTOS,genreDTOS, emf);
+            dao.update(movie);
+        }
+
+
     }
 
 

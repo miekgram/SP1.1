@@ -96,4 +96,14 @@ public class Dao implements IDAO<Movie, Integer>{
             return updatedPerson;
         }
     }
+
+
+    public Genre getGenreById(Integer id) {
+        try (EntityManager em = emf.createEntityManager()) {
+            //em.getTransaction().begin();
+            Genre genre = em.find(Genre.class, id);
+            //em.getTransaction().commit();
+            return genre;
+        }
+    }
 }
