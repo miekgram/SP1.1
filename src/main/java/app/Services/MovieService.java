@@ -27,9 +27,7 @@ public class MovieService  {
 
 
     private static final String API_KEY = System.getenv("api_key");  // Replace with your TMDb API Key
-    private static final String BASE_URL_MOVIE = "https://api.themoviedb.org/3/discover/movie";
     private static final String BASE_URL_DISCOVER = "https://api.themoviedb.org/3/discover/movie";
-    ;
 
 
     public static List<MovieDTO> loadAllMovies() throws IOException, InterruptedException{
@@ -120,30 +118,6 @@ public class MovieService  {
     }
 
 
-    public static void loadAllActorsAndGenre(List<MovieDTO> movieDTOS)throws IOException, InterruptedException{
-        List<PersonDTO> personDTOS;
-        Converters converters = new Converters();
-        //For hver film tilføjer vi actors og genre til movie listerne med persons og genres
-        for (MovieDTO m : movieDTOS){
-            Movie movie = dao.getById(m.getMovieId());
-            personDTOS = getAllPersonsByMovieId(m);
-
-            for (Integer genreId : m.getGenreIds()) {
-                Genre genre = dao.getGenreById(genreId);
-                movie.addGenre(genre);
-            }
-
-            for (PersonDTO p : personDTOS){
-               Person person = converters.convertPersonDtoToPerson(p);
-               dao.updatePerson(person);
-                movie.addPerson(person);
-            }
-            dao.update(movie);
-        }
-
-
-    }
-
     public static void loadAll() throws IOException, InterruptedException {
         Converters converter = new Converters();
 
@@ -161,7 +135,7 @@ public class MovieService  {
         List<MovieDTO> movieDTOS = MovieService.loadAllMovies();
 
         for(MovieDTO movieDTO : movieDTOS){
-            List<PersonDTO> personDTOS = getAllPersonsByMovieId(movieDTO);
+            List<PersonDTO> personDTOS = getAllPersonsByMovieId(movieDTO);  //Persons bliver sat inde i convertMovieDtoToMovie()
             Movie movie = converter.convertMovieDtoToMovie(movieDTO,personDTOS,genreDTOS, emf);
             dao.update(movie);
         }

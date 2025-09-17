@@ -17,7 +17,6 @@ public class Converters {
 
     public Movie convertMovieDtoToMovie (MovieDTO movieDTO, List<PersonDTO> persons, List<GenreDTO> genreDTOS, EntityManagerFactory emf){
         Dao dao = new Dao(emf);
-
         Movie movie = Movie.builder()
                 .movieId(movieDTO.getMovieId())
                 .title(movieDTO.getTitle())
@@ -30,8 +29,8 @@ public class Converters {
 
         for (PersonDTO p : persons) {
             Person person = convertPersonDtoToPerson(p);
-            person = dao.updatePerson(person);
-            movie.addPerson(person);
+            person = dao.updatePerson(person);          //Vi bruger update(merge) for ikke at konflikte med personid _pk
+            movie.addPerson(person);                    //Person tilføjes som del af cast i en film
         }
 
         // Tilføj genres
