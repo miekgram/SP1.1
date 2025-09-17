@@ -1,12 +1,14 @@
 package app.entities;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -19,4 +21,7 @@ public class Person {
    private int gender;
    private String name;
    private String job;
+    @Builder.Default
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+   private List<MoviePerson> movies = new ArrayList<>();
 }

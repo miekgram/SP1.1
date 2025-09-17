@@ -1,5 +1,6 @@
 package app.dao;
 
+import app.entities.Genre;
 import app.entities.Movie;
 import app.entities.Person;
 import jakarta.persistence.EntityManager;
@@ -16,7 +17,7 @@ public class Dao implements IDAO<Movie, Integer>{
     }
 
     @Override
-    public Movie create(Movie movie) {
+    public Movie createMovie(Movie movie) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.persist(movie);
@@ -65,6 +66,34 @@ public class Dao implements IDAO<Movie, Integer>{
             } else {
                 return false;
             }
+        }
+    }
+
+
+    public Genre createGenre(Genre genre) {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            em.persist(genre);
+            em.getTransaction().commit();
+        }
+        return genre;
+    }
+
+    public Person createPerson(Person person) {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            em.persist(person);
+            em.getTransaction().commit();
+        }
+        return person;
+    }
+
+    public Person updatePerson(Person person) {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            Person updatedPerson = em.merge(person);
+            em.getTransaction().commit();
+            return updatedPerson;
         }
     }
 }

@@ -18,6 +18,6 @@ public class Genre {
     @Id
     private int id;
     private String name;
-    @OneToMany(mappedBy = "genre", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "genre", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<MovieGenre> movieGenres = new ArrayList<>();
 }

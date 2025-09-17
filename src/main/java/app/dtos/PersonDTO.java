@@ -1,6 +1,7 @@
 package app.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ public class PersonDTO {
     private int id;
     private int gender;
     private String name;
+    @JsonProperty("known_for_department")
     private String job;
 
 

@@ -1,6 +1,7 @@
 package app.dtos;
 
 
+import app.entities.Person;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -29,4 +30,6 @@ public class MovieDTO {
     private LocalDate releaseDate;
     @JsonProperty("vote_average")
     private double avgRating;
+    private PersonDTO director;
+
 }
