@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)//ignorer andre felter fra JSON filen som ikke bliver til atributter i DTO
 public class GenreDTO {
     private int id;
     private String name;

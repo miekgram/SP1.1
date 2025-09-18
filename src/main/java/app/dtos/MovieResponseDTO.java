@@ -4,6 +4,8 @@ import lombok.Data;
 
 import java.util.List;
 
+//---------denne response klasse bruger vi til at loope igennem de pages vi fetcher ind
+
 @Data
 public class MovieResponseDTO {
     private int page;

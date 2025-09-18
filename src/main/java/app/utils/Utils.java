@@ -5,7 +5,8 @@ import app.exceptions.ApiException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
+//gør bla. at vi kan bruge vores api-key klad
+// læser vores config.properties fil med path til db
 public class Utils {
 
     public static String getPropertyValue(String propName, String resourceName)  {

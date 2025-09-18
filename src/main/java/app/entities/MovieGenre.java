@@ -18,5 +18,5 @@ public class MovieGenre {
     @ManyToOne
     private Movie movie;
     @ManyToOne
-    private Genre genre;
+    private Genre genre;//---- <- dette navn matcher mappedBy i Genre
 }

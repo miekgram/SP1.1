@@ -70,6 +70,12 @@ public class Dao implements IDAO<Movie, Integer>{
     }
 
 
+
+
+
+    //-------------andre dao metoder end Movie-------------//
+
+
     public Genre createGenre(Genre genre) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();

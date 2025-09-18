@@ -11,12 +11,16 @@ import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
 
-
+//--- denne klasse er en form for oversættelses klasse mellem vores DTO klasser og entitiet klasser
+//den konvatere/oversætter data fra API’et (DTO’er) til vores database-objekter (JPA-entiteter), så det kan bliver klart til at blive gemt i DB
 
 public class Converters {
 
+    //---vi laver et Movie objekt og propper vores movieDTO ind i så vi på den måde konvaterer dto til objekt
+    //----Klassen bygger en komplet Movie-entitet ud fra ét MovieDTO og sætter de rigtige relationer på:
+
     public Movie convertMovieDtoToMovie (MovieDTO movieDTO, List<PersonDTO> persons, List<GenreDTO> genreDTOS, EntityManagerFactory emf){
-        Dao dao = new Dao(emf);
+        Dao dao = new Dao(emf);//DAO’en skal bruges til at skrive/opdatere Person i databasen.
         Movie movie = Movie.builder()
                 .movieId(movieDTO.getMovieId())
                 .title(movieDTO.getTitle())
@@ -30,7 +34,7 @@ public class Converters {
         for (PersonDTO p : persons) {
             Person person = convertPersonDtoToPerson(p);
             person = dao.updatePerson(person);          //Vi bruger update(merge) for ikke at konflikte med personid _pk
-            movie.addPerson(person);                    //Person tilføjes som del af cast i en film
+            movie.addPerson(person);                    //Person tilføjes som del af cast i en film //movie.addPerson(...) (laver MoviePerson-koblinger).
         }
 
         // Tilføj genres
@@ -42,7 +46,7 @@ public class Converters {
 
             if (genreDTO != null) {
                 Genre genre = convertGenreDtoToGenre(genreDTO);
-                movie.addGenre(genre);
+                movie.addGenre(genre);//movie.addGenre(...) ( laver MovieGenre-koblinger).
             }
         }
 
