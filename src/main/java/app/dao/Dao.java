@@ -2,6 +2,7 @@ package app.dao;
 
 import app.entities.Genre;
 import app.entities.Movie;
+import app.entities.MovieGenre;
 import app.entities.Person;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -20,7 +21,7 @@ public class Dao implements IDAO<Movie, Integer>{
     public Movie createMovie(Movie movie) {
         try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
-            em.persist(movie);
+            em.merge(movie);
             em.getTransaction().commit();
         }
         return movie;
@@ -112,4 +113,23 @@ public class Dao implements IDAO<Movie, Integer>{
             return genre;
         }
     }
+
+
+    public List<Genre> getAllGenre() {
+        try (EntityManager em = emf.createEntityManager()) {
+            TypedQuery<Genre> query = em.createQuery("select m from Genre m", Genre.class);
+            return query.getResultList();
+        }
+    }
+
+
+    public List<MovieGenre> getAllMoviesByGenre (int genreId){
+        try (EntityManager em = emf.createEntityManager()) {
+            TypedQuery<MovieGenre> query = em.createQuery("select m from MovieGenre m where genre.id = "+genreId, MovieGenre.class);
+            return query.getResultList();
+        }
+    }
+
+
+
 }

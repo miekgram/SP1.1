@@ -12,6 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+//I test crasher det pga af builder og equalsAndHashcode arbejder lige imod hinanden
+//Derfor sætte vi denne på for at ekskluderer de felter der ikke er sat med builderen
 
 public class Movie {
 
@@ -20,7 +23,10 @@ public class Movie {
     @Column(length = 500, nullable = false)
     private String title;
     private boolean adult;
-    @ElementCollection //Gemmer liste af genre for filmen i db
+
+    @ElementCollection (fetch = FetchType.EAGER)//Gemmer liste af genre for filmen i db
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Integer> genre;
     private String language;
     @Column(length = 5000, nullable = false)
@@ -28,14 +34,18 @@ public class Movie {
     private double avgRating;
         //---- kobling mellem Movie og Genre entitet
         //------ mappedBy = "movie" = siden med MovieGenre ejer relationen i movie atributten
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @Builder.Default //---- listen starter som tom ved hjælp af builder()
     private List<MovieGenre> movieGenres = new ArrayList<>();
         //------ kobling melle Movie og MoviePerson
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @Builder.Default
+    @ToString.Exclude
     private List<MoviePerson> moviePersons = new ArrayList<>();
     @ManyToOne
+    @ToString.Exclude
     private Person director;
 
 //Fælles pointe for begge metoder

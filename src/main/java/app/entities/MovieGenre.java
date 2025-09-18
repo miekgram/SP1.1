@@ -1,10 +1,7 @@
 package app.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
@@ -17,6 +14,7 @@ public class MovieGenre {
     private Integer id;
     @ManyToOne
     private Movie movie;
+    @ToString.Exclude
     @ManyToOne
     private Genre genre;//---- <- dette navn matcher mappedBy i Genre
 }

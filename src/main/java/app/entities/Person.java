@@ -2,10 +2,7 @@ package app.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +19,8 @@ public class Person {
    private String name;
    private String job;
     @Builder.Default
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "person", cascade = CascadeType.MERGE , fetch = FetchType.EAGER)
    private List<MoviePerson> movies = new ArrayList<>();
 }

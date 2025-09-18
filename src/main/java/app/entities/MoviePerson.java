@@ -16,9 +16,9 @@ public class MoviePerson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//----autogenererer et id ved oprettelse
     private Integer id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Movie movie;
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne
     private Person person;
     private String job;
 

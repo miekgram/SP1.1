@@ -1,10 +1,7 @@
 package app.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +21,8 @@ public class Genre {
     //------cascade = CascadeTyp.ALL = Operationer på Genre “smitter af” på dens movieGenres eller forældrene smitter af på deres børn
     //------fetch = FetchType.EAGER = henter alt der er i tabellen / fetcher alt
 
-    @OneToMany(mappedBy = "genre", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "genre", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<MovieGenre> movieGenres = new ArrayList<>();
 }
